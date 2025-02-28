@@ -39,6 +39,18 @@ class EppoConfig {
   /// [apiKey] is required and should be your Eppo SDK key.
   /// [assignmentLogger] is an optional custom logger for assignment events.
   /// [banditLogger] is an optional custom logger for bandit events.
+  /// [maxCacheAgeSeconds] is an optional maximum cache age in seconds.
+  /// [updateOnFetch] is an optional flag indicating whether to update cache on fetch.
+  /// [requestTimeoutMs] is an optional request timeout in milliseconds.
+  /// [numInitialRequestRetries] is an optional number of initial request retries.
+  /// [numPollRequestRetries] is an optional number of poll request retries.
+  /// [pollingIntervalMs] is an optional polling interval in milliseconds.
+  /// [pollAfterSuccessfulInitialization] is an optional flag indicating whether to poll after successful initialization.
+  /// [pollAfterFailedInitialization] is an optional flag indicating whether to poll after failed initialization.
+  /// [skipInitialRequest] is an optional flag indicating whether to skip initial request.
+  /// [baseUrl] is an optional base URL for the Eppo SDK.
+  /// [useExpiredCache] is an optional flag indicating whether to use expired cache.
+  /// [forceReinitialize] is an optional flag indicating whether to force reinitialize.
   external factory EppoConfig({
     required String apiKey,
     AssignmentLogger? assignmentLogger,
@@ -71,7 +83,42 @@ class PersistentStore {
 @staticInterop
 @anonymous
 class AssignmentLogger {
-  external factory AssignmentLogger();
+  /// Creates a new assignment logger.
+  ///
+  /// Implement this interface to log variation assignments to your data warehouse.
+  /// The logger will be called with an assignment event when a subject is assigned to a variation.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// AssignmentLogger(
+  ///   logAssignment: ((JSAny event) {
+  ///     final typedEvent = event as AssignmentEvent;
+  ///     // Your logging logic here
+  ///   }).toJS,
+  /// )
+  /// ```
+  external factory AssignmentLogger({required JSFunction logAssignment});
+}
+
+/// Represents an assignment event.
+@JS()
+@staticInterop
+@anonymous
+class AssignmentEvent {
+  external factory AssignmentEvent();
+}
+
+/// Extension methods for AssignmentEvent.
+extension AssignmentEventExtension on AssignmentEvent {
+  external String? get allocation;
+  external String? get experiment;
+  external String get featureFlag;
+  external String? get variation;
+  external String get subject;
+  external String get timestamp;
+  external JSAny get subjectAttributes;
+  external String get format;
+  external FlagEvaluationDetails? get evaluationDetails;
 }
 
 /// Interface for bandit logger.
@@ -79,7 +126,39 @@ class AssignmentLogger {
 @staticInterop
 @anonymous
 class BanditLogger {
-  external factory BanditLogger();
+  /// Creates a new bandit logger.
+  ///
+  /// Implement this interface to log bandit actions to your data warehouse.
+  /// The logger will be called with a bandit event when a subject is assigned to an action.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// BanditLogger(
+  ///   logBanditEvent: ((JSAny event) {
+  ///     final typedEvent = event as BanditEvent;
+  ///     // Your logging logic here
+  ///   }).toJS,
+  /// )
+  /// ```
+  external factory BanditLogger({required JSFunction logBanditEvent});
+}
+
+/// Represents a bandit event.
+@JS()
+@staticInterop
+@anonymous
+class BanditEvent {
+  external factory BanditEvent();
+}
+
+/// Extension methods for BanditEvent.
+extension BanditEventExtension on BanditEvent {
+  external String get banditKey;
+  external String get action;
+  external String get subject;
+  external String get timestamp;
+  external JSAny get subjectAttributes;
+  external FlagEvaluationDetails? get evaluationDetails;
 }
 
 /// Type for attribute values in subject attributes.
