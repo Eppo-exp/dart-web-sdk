@@ -83,7 +83,7 @@ class BanditLogger {
 }
 
 /// Type for attribute values in subject attributes.
-/// Can be String, num, bool, or List<dynamic>.
+/// Can be String, num, bool, or List&lt;dynamic&gt;.
 typedef AttributeType = dynamic;
 
 /// Subject attributes for targeting.
