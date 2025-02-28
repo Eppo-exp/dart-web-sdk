@@ -1,6 +1,6 @@
 name: eppo_dart_web_sdk
 description: Eppo Dart Web SDK
-version: 1.0.0
+version: 1.0.0-dev.1
 repository: https://github.com/Eppo-exp/dart-web-sdk
 
 environment:

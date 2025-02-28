@@ -1,0 +1,49 @@
+name: Publish to pub.dev
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Dart SDK
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: 'stable'
+      
+      - name: Install dependencies
+        run: dart pub get
+      
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed .
+      
+      - name: Analyze project source
+        run: dart analyze
+      
+      - name: Run tests
+        run: dart test
+      
+      - name: Build for web
+        run: dart compile js lib/eppo_dart_web_sdk.dart -o dist/eppo_dart_web_sdk.js
+      
+      - name: Validate package
+        run: dart pub publish --dry-run
+      
+      - name: Setup credentials
+        run: |
+          mkdir -p ~/.pub-cache
+          echo "${{ secrets.PUB_DEV_CREDENTIALS }}" > ~/.pub-cache/credentials.json
+      
+      - name: Publish to pub.dev
+        run: dart pub publish --force
+      
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: web-build
+          path: dist/ 
