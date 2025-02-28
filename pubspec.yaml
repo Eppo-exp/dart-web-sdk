@@ -1,6 +1,6 @@
 name: eppo_web_sdk
 description: Eppo SDK for Flutter Web
-version: 1.0.0-alpha.3
+version: 1.0.0
 repository: https://github.com/Eppo-exp/dart-web-sdk
 license: MIT
 
