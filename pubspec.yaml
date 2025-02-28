@@ -4,7 +4,12 @@ version: 1.0.0-alpha.1
 repository: https://github.com/Eppo-exp/dart-web-sdk
 
 environment:
-  sdk: ^3.7.0
+  # Dart 3.3.0 is the first version to support js interop
+  sdk: ^3.3.0
+
+# This package only works on the web platform
+platforms:
+  web:
 
 # Add regular dependencies here.
 dependencies:
