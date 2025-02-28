@@ -2,6 +2,10 @@
 
 [Eppo](https://www.geteppo.com/) is a modular flagging and experimentation analysis tool.
 
+This is a Dart wrapper for the Eppo JavaScript SDK that enables feature flagging and experimentation in Flutter web applications.
+
+This package provides interoperability with the [Eppo JavaScript SDK](https://github.com/Eppo-exp/js-client-sdk) through Dart's `js_interop` functionality.
+
 ## Getting Started
 
 Refer to our [SDK documentation](https://docs.geteppo.com/sdks/client-sdks/flutter-web) for how to install and use the SDK.
