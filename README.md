@@ -1,1 +1,1 @@
-# dart-web-sdk
+# Dart Web SDK for Eppo

@@ -1,0 +1,19 @@
+name: eppo_dart_web_sdk
+description: Eppo Dart Web SDK
+version: 1.0.0
+repository: https://github.com/Eppo-exp/dart-web-sdk
+
+environment:
+  sdk: ^3.7.0
+
+# Specify that this package is only for web platform
+platforms:
+  web:
+
+# Add regular dependencies here.
+dependencies:
+  # path: ^1.8.0
+
+dev_dependencies:
+  lints: ^5.0.0
+  test: ^1.24.0
