@@ -28,32 +28,8 @@
 /// final variation = client.getStringAssignment('flag-key', 'user-id');
 /// ```
 ///
-/// ## Precomputed Client Usage
-///
-/// ```dart
-/// import 'package:eppo_web_sdk/eppo_web_sdk.dart';
-/// import 'dart:js_interop';
-///
-/// // Create precompute configuration
-/// final precompute = PrecomputeConfig(subjectKey: 'user-id');
-///
-/// // Initialize the precomputed client
-/// final config = EppoPrecomputedConfig(
-///   apiKey: 'your-api-key',
-///   precompute: precompute.toJSBox(),
-/// );
-/// await eppo.precomputedInit(config.toJSBox()).toDart;
-///
-/// // Get an instance of the precomputed client
-/// final client = eppo.getPrecomputedInstance();
-///
-/// // Get a feature flag value
-/// final variation = client.getStringAssignment('flag-key', 'default-value');
-/// ```
-///
 /// For more information about Eppo, visit [geteppo.com](https://geteppo.com).
 
 library;
 
 export 'src/eppo_client.dart';
-export 'src/eppo_precomputed_client.dart';

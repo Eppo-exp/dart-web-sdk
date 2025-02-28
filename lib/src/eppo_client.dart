@@ -1,4 +1,5 @@
 import 'dart:js_interop';
+import 'eppo_js.dart';
 
 /// This file contains the Dart bindings for the Eppo JavaScript SDK client.
 ///
@@ -9,23 +10,8 @@ import 'dart:js_interop';
 /// - getExperimentContainerEntry
 /// - stopPolling
 /// - fetchFlagConfigurations
+/// - offline init
 /// - event ingestion
-
-/// The global Eppo JavaScript SDK object.
-///
-/// This is the entry point for interacting with the Eppo SDK.
-/// It provides methods for initialization and getting client instances.
-@JS('eppo')
-external EppoJS get eppo;
-
-/// Represents the Eppo JavaScript SDK object.
-///
-/// This class provides the core functionality of the Eppo SDK.
-@JS()
-@staticInterop
-class EppoJS {
-  external factory EppoJS();
-}
 
 /// Extension methods for the EppoJS class.
 extension EppoJSExtension on EppoJS {
@@ -39,11 +25,6 @@ extension EppoJSExtension on EppoJS {
   /// Use this method after initialization to get a client for retrieving
   /// feature flag values.
   external EppoClient getInstance();
-
-  /// Initializes the Eppo client with synchronous configuration.
-  ///
-  /// Use this for cases where the configuration is available from an external process.
-  external EppoClient offlineInit(EppoConfigSync config);
 }
 
 /// Configuration for Eppo SDK initialization.
@@ -83,21 +64,6 @@ class EppoConfig {
 @anonymous
 class PersistentStore {
   external factory PersistentStore();
-}
-
-/// Configuration for Eppo client offline initialization.
-@JS()
-@staticInterop
-@anonymous
-class EppoConfigSync {
-  /// Creates a new configuration object for Eppo client offline initialization.
-  external factory EppoConfigSync({
-    required Map<String, dynamic> flagsConfiguration,
-    AssignmentLogger? assignmentLogger,
-    BanditLogger? banditLogger,
-    bool? isObfuscated,
-    bool? throwOnFailedInitialization,
-  });
 }
 
 /// Interface for assignment logger.
@@ -181,28 +147,28 @@ extension FlagEvaluationDetailsExtension on FlagEvaluationDetails {
   external String? get flagEvaluationCode;
   external String? get flagEvaluationDescription;
   external String? get variationKey;
-  external dynamic get variationValue;
+  external JSAny? get variationValue;
   external String? get banditKey;
   external String? get banditAction;
   external String? get configFetchedAt;
   external String? get configPublishedAt;
   external Rule? get matchedRule;
   external AllocationEvaluation? get matchedAllocation;
-  external List<dynamic>? get unmatchedAllocations;
-  external List<dynamic>? get unevaluatedAllocations;
+  external JSArray<JSAny>? get unmatchedAllocations;
+  external JSArray<JSAny>? get unevaluatedAllocations;
 }
 
 // Assignment details interface
 @JS()
 @staticInterop
 @anonymous
-class AssignmentDetails<T> {
+class AssignmentDetails<T extends JSAny?> {
   external factory AssignmentDetails();
 }
 
 // Extension methods for AssignmentDetails
-extension AssignmentDetailsExtension<T> on AssignmentDetails<T> {
-  external T? get variation;
+extension AssignmentDetailsExtension<T extends JSAny?> on AssignmentDetails<T> {
+  external JSAny? get variation;
   external String? get action;
   external FlagEvaluationDetails get evaluationDetails;
 }
@@ -228,7 +194,7 @@ extension EppoClientExtension on EppoClient {
   external String getStringAssignment(
     String flagKey,
     String subjectKey, [
-    Map<String, AttributeType>? subjectAttributes,
+    JSAny? subjectAttributes,
     String? defaultValue,
   ]);
 
@@ -236,10 +202,10 @@ extension EppoClientExtension on EppoClient {
   ///
   /// This method returns not just the flag value but also evaluation details
   /// that can be useful for debugging and analytics.
-  external AssignmentDetails<String> getStringAssignmentDetails(
+  external AssignmentDetails<JSString> getStringAssignmentDetails(
     String flagKey,
     String subjectKey,
-    Map<String, AttributeType> subjectAttributes,
+    JSAny subjectAttributes,
     String defaultValue,
   );
 
@@ -247,47 +213,47 @@ extension EppoClientExtension on EppoClient {
   external bool getBooleanAssignment(
     String flagKey,
     String subjectKey, [
-    Map<String, AttributeType>? subjectAttributes,
+    JSAny? subjectAttributes,
     bool? defaultValue,
   ]);
 
   /// Gets detailed information about a boolean feature flag assignment.
-  external AssignmentDetails<bool> getBooleanAssignmentDetails(
+  external AssignmentDetails<JSBoolean> getBooleanAssignmentDetails(
     String flagKey,
     String subjectKey,
-    Map<String, AttributeType> subjectAttributes,
+    JSAny subjectAttributes,
     bool defaultValue,
   );
 
   /// Gets a JSON feature flag value for the specified subject.
-  external Map<String, dynamic> getJSONAssignment(
+  external JSAny getJSONAssignment(
     String flagKey,
     String subjectKey, [
-    Map<String, AttributeType>? subjectAttributes,
-    Map<String, dynamic>? defaultValue,
+    JSAny? subjectAttributes,
+    JSAny? defaultValue,
   ]);
 
   /// Gets detailed information about a JSON feature flag assignment.
-  external AssignmentDetails<Map<String, dynamic>> getJSONAssignmentDetails(
+  external AssignmentDetails<JSObject> getJSONAssignmentDetails(
     String flagKey,
     String subjectKey,
-    Map<String, AttributeType> subjectAttributes,
-    Map<String, dynamic> defaultValue,
+    JSAny subjectAttributes,
+    JSAny defaultValue,
   );
 
   /// Gets a numeric feature flag value for the specified subject.
   external num getNumericAssignment(
     String flagKey,
     String subjectKey, [
-    Map<String, AttributeType>? subjectAttributes,
+    JSAny? subjectAttributes,
     num? defaultValue,
   ]);
 
   /// Gets detailed information about a numeric feature flag assignment.
-  external AssignmentDetails<num> getNumericAssignmentDetails(
+  external AssignmentDetails<JSNumber> getNumericAssignmentDetails(
     String flagKey,
     String subjectKey,
-    Map<String, AttributeType> subjectAttributes,
+    JSAny subjectAttributes,
     num defaultValue,
   );
 
@@ -295,33 +261,33 @@ extension EppoClientExtension on EppoClient {
   external int getIntegerAssignment(
     String flagKey,
     String subjectKey, [
-    Map<String, AttributeType>? subjectAttributes,
+    JSAny? subjectAttributes,
     int? defaultValue,
   ]);
 
   /// Gets detailed information about an integer feature flag assignment.
-  external AssignmentDetails<int> getIntegerAssignmentDetails(
+  external AssignmentDetails<JSNumber> getIntegerAssignmentDetails(
     String flagKey,
     String subjectKey,
-    Map<String, AttributeType> subjectAttributes,
+    JSAny subjectAttributes,
     int defaultValue,
   );
 
   /// Gets a bandit action for the specified subject.
-  external AssignmentDetails<String> getBanditAction(
+  external AssignmentDetails<JSString> getBanditAction(
     String flagKey,
     String subjectKey,
-    BanditSubjectAttributes subjectAttributes,
-    BanditActions actions,
+    JSAny subjectAttributes,
+    JSAny actions,
     String defaultValue,
   );
 
   /// Gets detailed information about a bandit action assignment.
-  external AssignmentDetails<String> getBanditActionDetails(
+  external AssignmentDetails<JSString> getBanditActionDetails(
     String flagKey,
     String subjectKey,
-    BanditSubjectAttributes subjectAttributes,
-    BanditActions actions,
+    JSAny subjectAttributes,
+    JSAny actions,
     String defaultValue,
   );
 }
