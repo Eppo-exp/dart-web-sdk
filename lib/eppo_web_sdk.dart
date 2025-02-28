@@ -32,4 +32,5 @@
 
 library;
 
+export 'src/eppo_js.dart';
 export 'src/eppo_client.dart';
