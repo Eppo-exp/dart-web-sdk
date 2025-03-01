@@ -1,39 +1,45 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# Eppo SDK for Flutter Web
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages). 
+[Eppo](https://www.geteppo.com/) is a modular flagging and experimentation analysis tool.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages). 
--->
+This is a Dart wrapper for the Eppo JavaScript SDK that enables feature flagging and experimentation in Flutter web applications.
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+This package provides interoperability with the [Eppo JavaScript SDK](https://github.com/Eppo-exp/js-client-sdk) through Dart's `js_interop` functionality.
+
+## Getting Started
+
+Refer to our [SDK documentation](https://docs.geteppo.com/sdks/client-sdks/flutter-web) for how to install and use the SDK.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- Feature gates
+- Kill switches
+- Progressive rollouts
+- A/B/n experiments
+- Mutually exclusive experiments (Layers)
+- Dynamic configuration
 
-## Getting started
+## Development
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+### Testing
 
-## Usage
+This package includes GitHub Actions workflows for automated testing and publishing:
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+- **Testing**: Runs on every push to main and on pull requests
+  - Verifies code formatting
+  - Runs static analysis
+  - Executes all tests
 
-```dart
-const like = 'sample';
-```
+### Publishing
 
-## Additional information
+To publish a new version:
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+1. Update the version in `pubspec.yaml`
+2. Update the `CHANGELOG.md` with the changes
+3. Create a new GitHub release:
+   - Go to the repository's "Releases" section
+   - Click "Draft a new release"
+   - Create a new tag in the format `v1.2.3`
+   - Add release notes (can be copied from CHANGELOG.md)
+   - Publish the release
+4. The GitHub Actions workflow will automatically publish the package to pub.dev

@@ -1,8 +1,36 @@
-/// Support for doing something awesome.
+/// Eppo SDK for Flutter Web
 ///
-/// More dartdocs go here.
+/// A Dart wrapper for the Eppo JavaScript SDK that enables feature flagging
+/// and experimentation in Flutter web applications.
+///
+/// This package provides interoperability with the Eppo JavaScript SDK through
+/// Dart's js_interop functionality, allowing you to:
+///
+/// - Initialize the Eppo SDK with your API key
+/// - Retrieve feature flag values of different types (string, boolean, numeric, JSON)
+/// - Access detailed assignment information for analytics and debugging
+/// - Use precomputed flags for improved performance
+///
+/// ## Basic Usage
+///
+/// ```dart
+/// import 'package:eppo_web_sdk/eppo_web_sdk.dart';
+/// import 'dart:js_interop';
+///
+/// // Initialize the SDK
+/// final config = EppoConfig(apiKey: 'your-api-key');
+/// await eppo.init(config.toJSBox()).toDart;
+///
+/// // Get an instance of the client
+/// final client = eppo.getInstance();
+///
+/// // Get a feature flag value
+/// final variation = client.getStringAssignment('flag-key', 'user-id');
+/// ```
+///
+/// For more information about Eppo, visit [geteppo.com](https://geteppo.com).
+
 library;
 
-export 'src/eppo_web_sdk_base.dart';
-
-// TODO: Export any libraries intended for clients of this package.
+export 'src/eppo_js.dart';
+export 'src/eppo_client.dart';
